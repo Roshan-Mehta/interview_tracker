@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
+const Quest = require('../models/question');
 
 // handle errors
 const handleErrors = (err) => {
@@ -87,4 +88,9 @@ module.exports.login_post = async (req, res) => {
 module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
+}
+
+module.exports.get_question = (req, res) => {
+  Quest.find().then((result) => {res.render('questions', {questions : result})})
+  .catch((err) => console.log(err));
 }

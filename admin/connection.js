@@ -15,8 +15,8 @@ const run = async (MongooseDb) => {
     // const admin = new AdminBro({
     //     databases : [mongooseDb]
     // });
-    console.log(MongooseDb);
-    const admin = new AdminBro(options(MongooseDb))
+    // console.log(MongooseDb);
+    const admin = new AdminBro(options)
     const router = buildAdminRouter(admin);
     app.use(admin.options.rootPath, router);
     app.listen(port, () => {

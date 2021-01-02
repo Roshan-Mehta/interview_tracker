@@ -1,0 +1,25 @@
+<html lang="en">
+<%- include('./partials/header.ejs')%>
+<body>
+    <div class="div-content">
+
+        
+        <h2>All Questions</h2>
+        <% if (questions.length > 0) { %>
+            <% questions.forEach(question => { %>
+                <a href="/questions/<%=question._id%>">
+                <h3 class="title"><%= question.topic %></h3>
+                <p class="snippet"><%= question.name %></p>
+                </a>
+                <%}) %>
+                <% } %>
+            <!-- }) -->
+
+
+        <!-- } -->
+
+    </div>
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+</html>

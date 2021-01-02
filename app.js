@@ -22,6 +22,13 @@ const databaseConnect = async () => {
   mongooseDb = await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
+
+  const db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() {
+    console.log("we are connected to database");
+  });
+  
   // console.log(mongooseDb);
   run(mongooseDb);
   
