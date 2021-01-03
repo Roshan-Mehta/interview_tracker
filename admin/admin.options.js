@@ -3,10 +3,14 @@ const AdminBroMongoose = require('admin-bro-mongoose');
 
 AdminBro.registerAdapter(AdminBroMongoose);
 
-const { Company} = require('./Data/company');
+// const { Company} = require('./Data/company');
+const User = require('../models/User');
+const Topic = require('../models/topics');
+const Question = require('../models/question');
 
 const options = {
-    resources : [Company],
-}
+    // databases : [mongooseDb]
+    resources : [User, Topic, Question]
+};
 
 module.exports = options;
