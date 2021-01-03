@@ -4,6 +4,8 @@ const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const run = require('./admin/connection');
+const authController = require('./controllers/authController');
+const Quest = require('./models/question');
 
 const app = express();
 
@@ -39,4 +41,8 @@ databaseConnect();
 app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
+app.get('/topics', requireAuth, authController.get_topics);
+app.get('/topics/:id', requireAuth, authController.get_question_by_topics);
+app.get('/questions/:id', requireAuth, authController.get_question_by_id);
+// app.get('/topics/:id', requireAuth, authController.get_question_by_id);
 app.use(authRoutes);

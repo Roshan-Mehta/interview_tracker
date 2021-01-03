@@ -1,0 +1,26 @@
+<html lang="en">
+<%- include('./partials/header.ejs')%>
+<body>
+    <div class="div-content">
+
+        
+        <h2>All Topics</h2>
+        <br>
+        <% if (topics.length > 0) { %>
+            <% topics.forEach(topic => { %>
+                <a href="/topics/<%=topic._id%>">
+                <!-- <h3 class="title"><%= topic.name %></h3> -->
+                <p class="snippet"><%= topic.name %></p>
+                </a>
+                <%}) %>
+                <% } %>
+            <!-- }) -->
+
+
+        <!-- } -->
+
+    </div>
+    <%- include('./partials/footer.ejs') %>
+
+</body>
+</html>

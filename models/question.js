@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const QuestionSchema = new mongoose.Schema({
-    topic : {
-        type : String,
+    topic :{
+        type : mongoose.Schema.Types.ObjectId, 
+        ref : 'topic',
         required : true
     },
     name : {

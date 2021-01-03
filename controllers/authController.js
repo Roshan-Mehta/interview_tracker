@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const Quest = require('../models/question');
+const Topics = require('../models/topics');
 
 // handle errors
 const handleErrors = (err) => {
@@ -90,7 +91,30 @@ module.exports.logout_get = (req, res) => {
   res.redirect('/');
 }
 
-module.exports.get_question = (req, res) => {
-  Quest.find().then((result) => {res.render('questions', {questions : result})})
+module.exports.get_topics = (req, res) => {
+  Topics.find().then((result) => {res.render('topics', {topics : result})})
   .catch((err) => console.log(err));
+}
+
+module.exports.get_question_by_id = (req, res) => {
+  const id = req.params.id;
+  Quest.findById(id).then((result) => {
+      res.render('details',{ question : result });
+  }) .catch((error) => console.log(error));
+
+}
+module.exports.get_question_by_name = (req, res) => {
+  const name = req.params.name;
+  Quest.find({topic : name}).then((result) => {
+    res.render('all_questions', {questions : result});
+  }).catch((error) => console.log(error));
+}
+module.exports.get_question_by_topics = (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  Quest.find({topic : id}).then((result) => res.render('all_questions', {questions : result}))
+  .catch((error) => console.log(error));
+  // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));
+  // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
+
 }

@@ -4,11 +4,8 @@ const TopicSchema = new mongoose.Schema({
     name : {
         type:String, 
         required : true,
+        unique : true
 
-    },
-    question : {
-        type : String, 
-        required : true
     }
     
 })
