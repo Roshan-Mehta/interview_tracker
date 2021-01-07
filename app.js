@@ -14,6 +14,14 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
+// const express = require('express');
+const {default : AdminBro} = require('admin-bro');
+// const mongoose = require('mongoose');
+const buildAdminRouter = require('./admin/admin.router');
+const options = require('./admin/admin.options');
+// const app = express();
+const port = 3000;
+// const url = 'mongodb://localhost:27017/MyProject';
 // view engine
 app.set('view engine', 'ejs');
 
@@ -32,7 +40,13 @@ const databaseConnect = async () => {
   });
   
   // console.log(mongooseDb);
-  run(mongooseDb);
+  // run(mongooseDb);
+    const admin = new AdminBro(options)
+    const router = buildAdminRouter(admin);
+    app.use(admin.options.rootPath, router);
+    // app.listen(port, () => {
+    //     console.log(`App listening at http://localhost:${port}`)
+    // });
   
 };
 databaseConnect();
@@ -42,7 +56,10 @@ app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/topics', requireAuth, authController.get_topics);
-app.get('/topics/:id', requireAuth, authController.get_question_by_topics);
+// app.get('/topics/:id', requireAuth, authController.get_question_by_topics);
+app.get('/topics/:id', requireAuth, authController.get_question_by_topicsName);
 app.get('/questions/:id', requireAuth, authController.get_question_by_id);
+app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 // app.get('/topics/:id', requireAuth, authController.get_question_by_id);
 app.use(authRoutes);
+
