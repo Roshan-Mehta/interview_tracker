@@ -9,9 +9,15 @@
         <% if (questions.length > 0) { %>
             <% questions.forEach(question => { %>
                 <a href="/questions/<%=question._id%>">
+                    
                 <!-- <h3 class="title"><%= question.name %></h3> -->
                 <p class="snippet"><%= question.name %></p>
                 </a>
+                <!-- <a href="/questions/<%=question.name%>"> -->
+                    
+                <!-- <h3 class="title"><%= question.name %></h3> -->
+                <!-- <p class="snippet"><%= question.name %> : By Name</p> -->
+                <!-- </a> -->
                 <%}) %>
                 <% } %>
             <!-- }) -->

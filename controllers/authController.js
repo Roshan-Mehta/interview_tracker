@@ -2,6 +2,7 @@ const User = require("../models/User");
 const jwt = require('jsonwebtoken');
 const Quest = require('../models/question');
 const Topics = require('../models/topics');
+const Topic = require("../models/topics");
 
 // handle errors
 const handleErrors = (err) => {
@@ -97,9 +98,18 @@ module.exports.get_topics = (req, res) => {
 }
 
 module.exports.get_question_by_id = (req, res) => {
+  // const name = req.params.name;
   const id = req.params.id;
+  // console.log("req ", req);
+  // console.log(name);
+  console.log("id = ", id);
+  // console.log(req.params);
+  // Quest.find({name : id}).then((result) => {
+  //   res.redirect(result.link);
+  // }) .catch((error) => console.log(eror));
   Quest.findById(id).then((result) => {
-      res.render('details',{ question : result });
+      // res.render('details',{ question : result });
+      res.redirect(result.link);
   }) .catch((error) => console.log(error));
 
 }
@@ -111,8 +121,21 @@ module.exports.get_question_by_name = (req, res) => {
 }
 module.exports.get_question_by_topics = (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  // console.log(id);
   Quest.find({topic : id}).then((result) => res.render('all_questions', {questions : result}))
+  .catch((error) => console.log(error));
+  // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));
+  // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
+
+}
+module.exports.get_question_by_topicsName = async (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+  var TopicId = 23;
+  console.log(TopicId);
+  await Topic.find({name : id}).then((result) => TopicId = result[0]._id);
+  console.log("Id = ", TopicId);
+  Quest.find({topic : TopicId}).then((result) => res.render('all_questions', {questions : result}))
   .catch((error) => console.log(error));
   // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));
   // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
