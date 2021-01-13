@@ -17,6 +17,10 @@ const QuestionSchema = new mongoose.Schema({
     link : {
         type : String,
         required : true
+    },
+    approved : {
+        type : Boolean,
+        default : false 
     }
 
 });

@@ -10,7 +10,8 @@ const Question = require('../models/question');
 
 const options = {
     // databases : [mongooseDb]
-    resources : [User, Topic, Question]
+    resources : [User, Topic, Question],
+    rootPath : '/admin',
 };
 
 module.exports = options;

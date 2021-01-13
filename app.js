@@ -6,6 +6,7 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const run = require('./admin/connection');
 const authController = require('./controllers/authController');
 const Quest = require('./models/question');
+const reqAdminAuth = require('./middleware/authAdmin');
 
 const app = express();
 
@@ -39,27 +40,25 @@ const databaseConnect = async () => {
     console.log("we are connected to database");
   });
   
-  // console.log(mongooseDb);
-  // run(mongooseDb);
     const admin = new AdminBro(options)
     const router = buildAdminRouter(admin);
     app.use(admin.options.rootPath, router);
-    // app.listen(port, () => {
-    //     console.log(`App listening at http://localhost:${port}`)
-    // });
   
 };
 databaseConnect();
 
 // routes
 app.get('*', checkUser);
+app.get('/admin', reqAdminAuth);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/topics', requireAuth, authController.get_topics);
 // app.get('/topics/:id', requireAuth, authController.get_question_by_topics);
 app.get('/topics/:id', requireAuth, authController.get_question_by_topicsName);
-app.get('/questions/:id', requireAuth, authController.get_question_by_id);
+// app.get('/questions/:id', requireAuth, authController.get_question_by_id);
 app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 // app.get('/topics/:id', requireAuth, authController.get_question_by_id);
+app.get('/error', (req, res) => res.render('error'));
 app.use(authRoutes);
+// app.use()
 

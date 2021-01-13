@@ -8,11 +8,14 @@
         <br>
         <% if (questions.length > 0) { %>
             <% questions.forEach(question => { %>
-                <a href="/questions/<%=question._id%>">
+                <% if (question.approved == true) { %>
+                <a href="/questions/<%=question.name%>">
+
                     
                 <!-- <h3 class="title"><%= question.name %></h3> -->
                 <p class="snippet"><%= question.name %></p>
                 </a>
+                <% } %>
                 <!-- <a href="/questions/<%=question.name%>"> -->
                     
                 <!-- <h3 class="title"><%= question.name %></h3> -->

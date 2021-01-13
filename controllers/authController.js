@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Quest = require('../models/question');
 const Topics = require('../models/topics');
 const Topic = require("../models/topics");
+const { Query } = require("mongoose");
 
 // handle errors
 const handleErrors = (err) => {
@@ -107,6 +108,7 @@ module.exports.get_question_by_id = (req, res) => {
   // Quest.find({name : id}).then((result) => {
   //   res.redirect(result.link);
   // }) .catch((error) => console.log(eror));
+
   Quest.findById(id).then((result) => {
       // res.render('details',{ question : result });
       res.redirect(result.link);
@@ -115,9 +117,14 @@ module.exports.get_question_by_id = (req, res) => {
 }
 module.exports.get_question_by_name = (req, res) => {
   const name = req.params.name;
-  Quest.find({topic : name}).then((result) => {
-    res.render('all_questions', {questions : result});
-  }).catch((error) => console.log(error));
+  let id;
+  console.log("name ," ,name);
+  Quest.find({name : name}).then((result) => {
+    res.redirect(result[0].link);
+  })
+  // Quest.find({topic : name}).then((result) => {
+  //   res.render('all_questions', {questions : result});
+  // }).catch((error) => console.log(error));
 }
 module.exports.get_question_by_topics = (req, res) => {
   const id = req.params.id;
@@ -133,9 +140,12 @@ module.exports.get_question_by_topicsName = async (req, res) => {
   // console.log(id);
   var TopicId = 23;
   console.log(TopicId);
-  await Topic.find({name : id}).then((result) => TopicId = result[0]._id);
+  await Topic.find({name : id}).then((result) =>  TopicId = result[0]._id);
   console.log("Id = ", TopicId);
-  Quest.find({topic : TopicId}).then((result) => res.render('all_questions', {questions : result}))
+  Quest.find({topic : TopicId}).then((result) => {
+    console.log("questions : ", result);
+    res.render('all_questions', {questions : result});
+  })
   .catch((error) => console.log(error));
   // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));
   // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
