@@ -28,6 +28,9 @@
     // get values
     const email = form.email.value;
     const password = form.password.value;
+    const temp = JSON.stringify({email, password});
+    console.log("printed value in login : ", temp);
+    console.log("abe value print to ho");
 
     try {
       const res = await fetch('/login', { 

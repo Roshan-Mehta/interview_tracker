@@ -52,8 +52,18 @@ module.exports.signup_get = (req, res) => {
   res.render('signup');
 }
 
+module.exports.form_get = async (req, res) => {
+  const filter = {};
+  const all = await Topic.find(filter);
+  res.render('forms', {topics : all});
+}
+
 module.exports.login_get = (req, res) => {
   res.render('login');
+}
+
+module.exports.form_post = (req, res) => {
+
 }
 
 module.exports.signup_post = async (req, res) => {
