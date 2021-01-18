@@ -1,14 +1,16 @@
 <%- include('partials/header'); -%>
 
-<form action="/signup">
-  <h2>Sign up</h2>
-  <label for="email">Email</label>
+<form action="/products">
+  <h2>Upload or Change your image</h2>
+  <label for="name">Name</label>
   <input type="text" name="email" required />
   <div class="email error"></div>
-  <label for="password">Password</label>
-  <input type="password" name="password" required />
+  <label for="desc">Description</label>
+  <input type="textarea" name="desc" required />
   <div class="password error"></div>
-  <button>Sign up</button>
+  <label for="image">Upload Image</label>
+  <input type="file" required>
+  <button>Submit</button>
 </form>
 
 <%- include('partials/footer'); -%>

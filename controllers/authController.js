@@ -4,7 +4,7 @@ const Quest = require('../models/question');
 const Topics = require('../models/topics');
 const Topic = require("../models/topics");
 const { Query } = require("mongoose");
-
+const {AdminCheck} = require("../middleware/authAdmin");
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -62,13 +62,30 @@ module.exports.login_get = (req, res) => {
   res.render('login');
 }
 
-module.exports.form_post = (req, res) => {
+module.exports.form_post = async (req, res) => {
+  const {name, link, topic} = req.body;
+  let topicId;
+  // console.log("name : ", name, link, topic);
+  const isAdmin = AdminCheck(req, res);
+  await Topic.find({name : topic}).then((result) => topicId = result[0]._id);
+  const temp = await Topic.find({name : topic}).then((result) => topicId = result[0]._id);
+  console.log("temp = ", temp);
 
+  console.log(topicId);
+  console.log(isAdmin);
+  try {
+    const question = await Quest.create({name, link, topic : topicId, approved : isAdmin});
+    res.status(201).json({question : question._id});
+  }
+  catch (err){
+    const errors = handleErrors(err);
+    res.status(400).json({errors});
+  }
 }
 
 module.exports.signup_post = async (req, res) => {
   const { email, password } = req.body;
-
+  // console.log("email, password : ", email, password);
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);

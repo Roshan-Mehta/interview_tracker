@@ -2,9 +2,8 @@ const User = require("../models/User");
 
 const adminEmails = ['roshan@gmail.com', 'myshizu@gmail.com'];
 
-const reqAdminAuth = (req, res, next) => {
+const AdminCheck = (req, res) => {
     const user = res.locals.user;
-    console.log("user = ", user);
     if (user) {
         const currentEmail = user.email;
         let a = 0;
@@ -14,13 +13,17 @@ const reqAdminAuth = (req, res, next) => {
             }
         })
         if (a == 1) {
-            next();
+            return true;
         }
-        else {
-            res.redirect('/error');
-            next();
 
-        }
+    }
+    return false;
+}
+
+const reqAdminAuth = (req, res, next) => {
+
+    if (AdminCheck(req, res)) {
+        next();
     }
     else {   
         res.redirect('/error');
@@ -30,4 +33,4 @@ const reqAdminAuth = (req, res, next) => {
     
 }
 
-module.exports = reqAdminAuth;
+module.exports = {AdminCheck, reqAdminAuth};

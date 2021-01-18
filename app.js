@@ -6,7 +6,7 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const run = require('./admin/connection');
 const authController = require('./controllers/authController');
 const Quest = require('./models/question');
-const reqAdminAuth = require('./middleware/authAdmin');
+const {reqAdminAuth}= require('./middleware/authAdmin');
 
 const app = express();
 
@@ -14,6 +14,10 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+const bodyParser = require('body-parser');
+// -------image Processing-------\
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
 
 // const express = require('express');
 const {default : AdminBro} = require('admin-bro');
@@ -48,7 +52,8 @@ const databaseConnect = async () => {
 databaseConnect();
 
 // routes
-app.get('*', checkUser);
+// app.get('*', checkUser);
+app.all("*", checkUser);
 app.get('/admin', reqAdminAuth);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
@@ -60,6 +65,11 @@ app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 // app.get('/topics/:id', requireAuth, authController.get_question_by_id);
 app.get('/error', (req, res) => res.render('error'));
 app.get('/form', requireAuth, authController.form_get);
+app.post('/form', requireAuth, authController.form_post);
 app.use(authRoutes);
 // app.use()
 
+const imageController = require('./controllers/imageController');
+// const bodyParser = require('body-parser');
+
+app.use(imageController);
