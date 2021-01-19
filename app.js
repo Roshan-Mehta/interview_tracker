@@ -60,6 +60,9 @@ app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 // app.get('/topics/:id', requireAuth, authController.get_question_by_id);
 app.get('/error', (req, res) => res.render('error'));
 app.get('/form', requireAuth, authController.form_get);
+app.get('/temp', (req, res) => {
+  res.render('temp');
+})
 app.use(authRoutes);
 // app.use()
 

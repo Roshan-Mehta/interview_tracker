@@ -1,15 +1,131 @@
 <%- include('partials/header'); -%>
+			<!-- Banner -->
+				<section id="banner">
+					<div class="content">
+						<header>
+							<h2>Welcome</h2>
+							<p>Want to prepare for Interview ? Yaaa.. You come at right place!</p>
+						</header>
+						<span class="image"><img src="images/Campus.jpg" alt="" /></span>
+					</div>
+					<a href="#one" class="goto-next scrolly">Next</a>
+				</section>
 
-<header>
-  <div class="smoothie">
-    <img src="/pencil.jpg" alt="">
-  </div>
-  <div class="headings">
-    <h2>Prepare for your Interview</h2>
-    <h3>By Roshan Mehta</h3>
-    <a href="/topics" class="btn">View Questions</a>
-  </div>
-</header>
+			<!-- One -->
+				<section id="one" class="spotlight style1 bottom">
+					<span class="image fit main"><img src="images/Campus.jpg" alt="" /></span>
+					<div class="content">
+						<div class="container">
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<header>
+										<h2>What are you waiting for! Do Practice Now</h2>
+										<p>We have thousands of problem for you</p>
+									</header>
+								</div>
+								<div class="col-4 col-12-medium">
+									<h2><a href="" style="color: white;">Programming Section</a>
+									</h2>
+								</div>
+								<div class="col-4 col-12-medium">
+									<h2><a href="" style="color: white;">Interview Experience</a>
+									</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a href="#two" class="goto-next scrolly">Next</a>
+				</section>
 
+			<!-- Two -->
+			<section id="two" class="spotlight style2 right">
+				<span class="image fit main"><img src="images/Campus3.jpg" alt="" /></span>
+				<div class="content">
+				  <header>
+					<h2>Login Here</h2>
+					
+				  </header>
+				  <form  id="#loginForm">
+					<label for="email">Email</label>
+					<input type="text" name = "email"/> 
+					<div class="email error"></div>
+					<label for="password" style="padding-top: 1cm;">Password</label>
+					<input type="password" name="password" id="" />
+					<div class="password error"></div>
+					<ul class="actions" style="margin-top: 1cm;">
+					  <li><button style="font-size: 16px;" class="button">Login</li></button>
+					  <li><a href="\signup" style="color: white;"  class="scrolly" >Don't have an account? Signup Instead</a></li>
+					</ul>
+				  </form>
+				</div>
+				<a href="#three" class="goto-next scrolly" >Next</a>
+			  </section>
 
+			<!-- Three -->
+				<section id="three" class="spotlight style3 left">
+					<span class="image fit main bottom"><img src="images/campus4.jpg" alt="" /></span>
+					<div class="content">
+						<header>
+							<h2>SignUp</h2>
+						</header>
+						<form action="">
+							<label>Name</label>
+							<input type="text" name = "Name"/> 
+							<label for="password" style="padding-top: 1cm;">Password</label>
+							<input type="password" name="password" id=""/>
+						</form>
+						<ul class="actions">
+							<li><a href="#" class="button">Signup</a></li>
+							<li><a href="#two" style="color: white" class="scrolly" >Already have an account? Login Instead</a></li>
+
+						</ul>
+					</div>
+					<!-- <a href="#four" class="goto-next scrolly">Next</a> -->
+				</section>
+				
+
+			
 <%- include('partials/footer'); -%>
+
+<script>
+	const form = document.querySelector('loginForm');
+	console.log("Bhai kahan hai tu");
+	const emailError = document.querySelector('.email.error');
+	const passwordError = document.querySelector('.password.error');
+  
+	form.addEventListener('submit', async (e) => {
+	  e.preventDefault();
+  
+	  // reset errors
+	  emailError.textContent = '';
+	  passwordError.textContent = '';
+  
+	  // get values
+	  const email = form.email.value;
+	  const password = form.password.value;
+	  const temp = JSON.stringify({email, password});
+	  console.log("printed value in login : ", temp);
+	  console.log("abe value print to ho");
+  
+	  try {
+		const res = await fetch('/login', { 
+		  method: 'POST', 
+		  body: JSON.stringify({ email, password }),
+		  headers: {'Content-Type': 'application/json'}
+		});
+		const data = await res.json();
+		console.log(data);
+		if (data.errors) {
+		  emailError.textContent = data.errors.email;
+		  passwordError.textContent = data.errors.password;
+		}
+		if (data.user) {
+		  location.assign('/');
+		}
+  
+	  }
+	  catch (err) {
+		console.log(err);
+	  }
+	});
+  </script> 
