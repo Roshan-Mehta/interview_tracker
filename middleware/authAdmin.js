@@ -2,9 +2,8 @@ const User = require("../models/User");
 
 const adminEmails = ['roshan@gmail.com', 'myshizu@gmail.com'];
 
-const reqAdminAuth = (req, res, next) => {
+const isAdmin = (req, res) => {
     const user = res.locals.user;
-    console.log("user = ", user);
     if (user) {
         const currentEmail = user.email;
         let a = 0;
@@ -14,20 +13,42 @@ const reqAdminAuth = (req, res, next) => {
             }
         })
         if (a == 1) {
-            next();
+            return true;
         }
-        else {
-            res.redirect('/error');
-            next();
-
-        }
-    }
-    else {   
-        res.redirect('/error');
-        next();
         
     }
+    return false;
+
+}
+
+const reqAdminAuth = (req, res, next) => {
+    const user = res.locals.user;
+    console.log("user = ", user);
+    if (isAdmin(req, res)) next();
+    else res.redirect('error');
+    // if (user) {
+    //     const currentEmail = user.email;
+    //     let a = 0;
+    //     adminEmails.forEach((email) => {
+    //         if (email == currentEmail) {
+    //             a = 1;
+    //         }
+    //     })
+    //     if (a == 1) {
+    //         next();
+    //     }
+    //     else {
+    //         res.redirect('/error');
+    //         next();
+
+    //     }
+    // }
+    // else {   
+    //     res.redirect('/error');
+    //     next();
+        
+    // }
     
 }
 
-module.exports = reqAdminAuth;
+module.exports = {reqAdminAuth, isAdmin};

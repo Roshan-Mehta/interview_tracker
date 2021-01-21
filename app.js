@@ -6,7 +6,7 @@ const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const run = require('./admin/connection');
 const authController = require('./controllers/authController');
 const Quest = require('./models/question');
-const reqAdminAuth = require('./middleware/authAdmin');
+const {reqAdminAuth} = require('./middleware/authAdmin');
 
 const app = express();
 
@@ -48,7 +48,7 @@ const databaseConnect = async () => {
 databaseConnect();
 
 // routes
-app.get('*', checkUser);
+app.all('*', checkUser);
 app.get('/admin', reqAdminAuth);
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
