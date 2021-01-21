@@ -45,7 +45,7 @@
 					<h2>Login Here</h2>
 					
 				  </header>
-				  <form  id="#loginForm">
+				  <form id="loginForm">
 					<label for="email">Email</label>
 					<input type="text" name = "email"/> 
 					<div class="email error"></div>
@@ -60,66 +60,114 @@
 				</div>
 				<a href="#three" class="goto-next scrolly" >Next</a>
 			  </section>
-
+			  
 			<!-- Three -->
-				<section id="three" class="spotlight style3 left">
-					<span class="image fit main bottom"><img src="images/campus4.jpg" alt="" /></span>
-					<div class="content">
-						<header>
-							<h2>SignUp</h2>
-						</header>
-						<form action="">
-							<label>Name</label>
-							<input type="text" name = "Name"/> 
-							<label for="password" style="padding-top: 1cm;">Password</label>
-							<input type="password" name="password" id=""/>
-						</form>
-						<ul class="actions">
-							<li><a href="#" class="button">Signup</a></li>
-							<li><a href="#two" style="color: white" class="scrolly" >Already have an account? Login Instead</a></li>
+            <section id="three" class="spotlight style3 left">
+				<span class="image fit main bottom"><img src="images/campus4.jpg" alt="" /></span>
+				<div class="content">
+				  <header>
+					<h2>SignUp</h2>
+				  </header>
+				  <form action="">
+					<label for="email2">Email</label>
+					<input type="text" name = "email2" required/> 
+					<div class="email2 error2"></div>
+					<label for="password2" style="padding-top: 1cm;" autocomplete="on">Password</label>
+					<input type="password" name="password2" required/>
+					<div class="password2 error2"></div>
+					<ul class="actions" style="margin-top: 1cm;">  
+					  <li><button style="font-size: 16px;" class="button">SignUp</button></li>
+					  <li><a href="\login" style="color: white" class="scrolly" >Already have an account? Login Instead</a></li>
+					  
+					</ul>
+				  </form>
+				</div>
+				<!-- <a href="#four" class="goto-next scrolly">Next</a> -->
+			  </section>
+            
 
-						</ul>
-					</div>
-					<!-- <a href="#four" class="goto-next scrolly">Next</a> -->
-				</section>
-				
 
 			
 <%- include('partials/footer'); -%>
 
 <script>
-	const form = document.querySelector('loginForm');
+	const form = document.querySelector('form');
 	console.log("Bhai kahan hai tu");
 	const emailError = document.querySelector('.email.error');
 	const passwordError = document.querySelector('.password.error');
+	console.log("Form : ", form);
+	if (form){
+		console.log("Inside form");
+		form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+	
+		// reset errors
+		emailError.textContent = '';
+		passwordError.textContent = '';
+	
+		// get values
+		const email = form.email.value;
+		const password = form.password.value;
+		const temp = JSON.stringify({email, password});
+		console.log("printed value in login : ", temp);
+		console.log("abe value print to ho");
+	
+		try {
+			const res = await fetch('/login', { 
+			method: 'POST', 
+			body: JSON.stringify({ email, password }),
+			headers: {'Content-Type': 'application/json'}
+			});
+			const data = await res.json();
+			console.log(data);
+			if (data.errors) {
+			emailError.textContent = data.errors.email;
+			passwordError.textContent = data.errors.password;
+			}
+			if (data.user) {
+			location.assign('/');
+			}
+	
+		}
+		catch (err) {
+			console.log(err);
+		}
+		});
+}
+  </script> 
   
-	form.addEventListener('submit', async (e) => {
+
+<script>
+	const form2 = document.querySelectorAll('form')[1];
+	const emailError2 = document.querySelector('.email2.error2');
+	const passwordError2 = document.querySelector('.password2.error2');
+  
+	form2.addEventListener('submit', async (e) => {
 	  e.preventDefault();
   
 	  // reset errors
-	  emailError.textContent = '';
-	  passwordError.textContent = '';
+	  emailError2.textContent = '';
+	  passwordError2.textContent = '';
   
 	  // get values
-	  const email = form.email.value;
-	  const password = form.password.value;
-	  const temp = JSON.stringify({email, password});
-	  console.log("printed value in login : ", temp);
-	  console.log("abe value print to ho");
-  
+	  const email = form2.email2.value;
+	  const password = form2.password2.value;
+		// console.log("email2 and pass : ", email2, password2);
+		console.log(JSON.stringify({email, password}));
 	  try {
-		const res = await fetch('/login', { 
+		const res = await fetch('/signup', { 
 		  method: 'POST', 
 		  body: JSON.stringify({ email, password }),
 		  headers: {'Content-Type': 'application/json'}
 		});
-		const data = await res.json();
-		console.log(data);
-		if (data.errors) {
-		  emailError.textContent = data.errors.email;
-		  passwordError.textContent = data.errors.password;
+		console.log("res = ", res);
+		const data2 = await res.json();
+		console.log("data2 = ", data2);
+		if (data2.errors) {
+		  emailError2.textContent = data2.errors.email;
+		  passwordError2.textContent = data2.errors.password;
 		}
-		if (data.user) {
+		if (data2.user) {
 		  location.assign('/');
 		}
   
@@ -127,5 +175,6 @@
 	  catch (err) {
 		console.log(err);
 	  }
+  
 	});
-  </script> 
+  </script>
