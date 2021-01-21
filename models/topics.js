@@ -6,6 +6,9 @@ const TopicSchema = new mongoose.Schema({
         required : true,
         unique : true
 
+    },
+    iconName : {
+        type : String
     }
     
 })

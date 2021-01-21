@@ -63,4 +63,3 @@ app.get('/form', requireAuth, authController.form_get);
 app.post('/form', requireAuth, authController.form_post);
 app.use(authRoutes);
 // app.use()
-

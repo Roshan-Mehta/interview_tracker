@@ -160,14 +160,14 @@ module.exports.get_question_by_topics = (req, res) => {
 }
 module.exports.get_question_by_topicsName = async (req, res) => {
   const id = req.params.id;
-  // console.log(id);
-  var TopicId = 23;
+  console.log("id = ", id);
+  var TopicId = 23, iconName;
   console.log(TopicId);
-  await Topic.find({name : id}).then((result) =>  TopicId = result[0]._id);
+  await Topic.find({name : id}).then((result) =>  {TopicId = result[0]._id; iconName = result[0].iconName});
   console.log("Id = ", TopicId);
   Quest.find({topic : TopicId}).then((result) => {
     console.log("questions : ", result);
-    res.render('all_questions', {questions : result});
+    res.render('all_questions', {questions : result, iconName});
   })
   .catch((error) => console.log(error));
   // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));

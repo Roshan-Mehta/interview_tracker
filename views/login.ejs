@@ -1,17 +1,33 @@
 <%- include('partials/header'); -%>
-
-<form action="/signup">
-  <h2>Login</h2>
-  <label for="email">Email</label>
-  <input type="text" name="email"  />
-  <div class="email error"></div>
-  <label for="password">Password</label>
-  <input type="password" name="password"  />
-  <div class="password error"></div>
-  <button>login</button>
-</form>
-
+<section id="two" class="spotlight style2 right">
+  <span class="image fit main"><img src="images/Campus3.jpg" alt="" /></span>
+  <div class="content">
+    <header>
+      <h2>Login Here</h2>
+      
+    </header>
+    <form action="">
+      <label for="email">Email</label>
+      <input type="text" name = "email"/> 
+      <div class="email error"></div>
+      <label for="password" style="padding-top: 1cm;">Password</label>
+      <input type="password" name="password" id="" />
+      <div class="password error"></div>
+      <ul class="actions" style="margin-top: 1cm;">
+        <li><button style="font-size: 16px;" class="button">Login</li></button>
+        <li><a href="\signup" style="color: white;"  class="scrolly" >Don't have an account? Signup Instead</a></li>
+      </ul>
+    </form>
+  </div>
+  <a href="#three" class="goto-next scrolly" >Next</a>
+</section>
+			
 <%- include('partials/footer'); -%>
+
+
+
+
+
 
 <script>
   const form = document.querySelector('form');
@@ -53,4 +69,4 @@
       console.log(err);
     }
   });
-</script>
+</script> 
