@@ -64,11 +64,19 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.form_post = async (req, res) => {
-  // const {}
+  const {name, topic, link} = req.body;
   const approved = isAdmin(req, res);
-  // try {
-  //   // const Q = await Quest.create({})
-  // }
+  var topicId;
+  await Topic.find({name : topic}).then((result) => topicId = result[0]._id);
+  console.log("name : ", name, topic, link, approved);
+  try {
+    const quest = await Quest.create({topic : topicId, name, link, approved});
+    res.status(201).json({quest : quest._id});
+  }
+  catch(err) {
+    console.log(err);
+    res.status(401).json({err});
+  }
 }
 
 module.exports.signup_post = async (req, res) => {

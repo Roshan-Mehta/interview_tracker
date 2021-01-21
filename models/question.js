@@ -10,10 +10,6 @@ const QuestionSchema = new mongoose.Schema({
         type : String,
         require : true
     },
-    content : {
-        type : String,
-        required : true
-    },
     link : {
         type : String,
         required : true
