@@ -24,7 +24,9 @@
     <option value="mercedes">Mercedes</option>
     <option value="audi">Audi</option> -->
   </select>
+
   <label for="link"  style="margin-top: 0.4cm;">Link</label>
+
   <input type="text" name="link" required />
   <div class="link error"></div>
   <button class="button" style="margin-top: 0.6cm;">Save</button>
@@ -63,7 +65,9 @@
         linkError.textContent = data.errors.password;
       }
       if (data.quest) {
+
         location.assign('/topics');
+
       }
 
     }
