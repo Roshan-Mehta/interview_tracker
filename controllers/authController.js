@@ -4,6 +4,7 @@ const Quest = require('../models/question');
 const Topics = require('../models/topics');
 const Topic = require("../models/topics");
 const { Query } = require("mongoose");
+const {isAdmin} = require('../middleware/authAdmin');
 
 // handle errors
 const handleErrors = (err) => {
@@ -62,8 +63,20 @@ module.exports.login_get = (req, res) => {
   res.render('login');
 }
 
-module.exports.form_post = (req, res) => {
-
+module.exports.form_post = async (req, res) => {
+  const {name, topic, link} = req.body;
+  const approved = isAdmin(req, res);
+  var topicId;
+  await Topic.find({name : topic}).then((result) => topicId = result[0]._id);
+  console.log("name : ", name, topic, link, approved);
+  try {
+    const quest = await Quest.create({topic : topicId, name, link, approved});
+    res.status(201).json({quest : quest._id});
+  }
+  catch(err) {
+    console.log(err);
+    res.status(401).json({err});
+  }
 }
 
 module.exports.signup_post = async (req, res) => {
