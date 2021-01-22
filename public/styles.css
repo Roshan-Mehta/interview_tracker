@@ -1,7 +1,13 @@
 /* google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+.myImageStyle {
+  width: 100px;
+  height: 80px;
+}
+
 body{
+  
   margin: 20px 40px;
   font-size: 1.2rem;
   letter-spacing: 1px;

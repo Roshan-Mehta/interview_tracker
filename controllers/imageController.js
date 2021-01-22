@@ -22,7 +22,7 @@ router.get('/products', (req, res) => {
             console.log(err);
         }
         else {
-            res.render('UserUpdation', {items : items});
+            res.render('imageView', {items : items});
         }
     });
 });
