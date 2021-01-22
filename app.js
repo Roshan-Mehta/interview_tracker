@@ -64,4 +64,10 @@ app.post('/form', requireAuth, authController.form_post);
 app.get('/interviews', requireAuth, authController.interview_get);
 app.get('/temp',requireAuth, (req, res) => res.render('all_questions'));
 app.use(authRoutes);
+
 // app.use()
+
+
+// -----------Image-Processing-----------
+const imageController = require('./controllers/imageController');
+app.use(imageController);

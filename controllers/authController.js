@@ -178,5 +178,14 @@ module.exports.get_question_by_topicsName = async (req, res) => {
 // ----------InterviwLogic-----------------
 
 module.exports.interview_get = async (req, res) => {
-  res.render('interview/home');
+
+  Image.find({}, (err, items) => {
+    if (err){
+        console.log(err);
+    }
+    else {
+        res.render('interview/home', {items : items});
+    }
+});
+
 }

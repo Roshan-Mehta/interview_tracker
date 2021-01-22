@@ -7,6 +7,10 @@ const CompanySchema = new mongoose.Schema({
     },
     link : {
         type : String, 
+    },
+    img : {
+        data : Buffer,
+        contentType : String,
     }
 
 });
