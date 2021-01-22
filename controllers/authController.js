@@ -176,16 +176,17 @@ module.exports.get_question_by_topicsName = async (req, res) => {
 }
 
 // ----------InterviwLogic-----------------
+const Company = require('../models/Company')
 
 module.exports.interview_get = async (req, res) => {
 
-  Image.find({}, (err, items) => {
+  Company.find({}, (err, items) => {
     if (err){
         console.log(err);
     }
     else {
         res.render('interview/home', {items : items});
     }
-});
+}).catch((err) => console.log("erro = ", err));
 
 }
