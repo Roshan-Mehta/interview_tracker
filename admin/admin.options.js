@@ -7,10 +7,12 @@ AdminBro.registerAdapter(AdminBroMongoose);
 const User = require('../models/User');
 const Topic = require('../models/topics');
 const Question = require('../models/question');
+const Company = require('../models/Company');
+const Experience = require('../models/experience');
 
 const options = {
     // databases : [mongooseDb]
-    resources : [User, Topic, Question],
+    resources : [User, Topic, Question, Company, Experience],
     rootPath : '/admin',
 };
 

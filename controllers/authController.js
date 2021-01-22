@@ -174,3 +174,9 @@ module.exports.get_question_by_topicsName = async (req, res) => {
   // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
 
 }
+
+// ----------InterviwLogic-----------------
+
+module.exports.interview_get = async (req, res) => {
+  res.render('interview/home');
+}

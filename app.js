@@ -61,5 +61,7 @@ app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 app.get('/error', (req, res) => res.render('error'));
 app.get('/form', requireAuth, authController.form_get);
 app.post('/form', requireAuth, authController.form_post);
+app.get('/interviews', requireAuth, authController.interview_get);
+app.get('/temp',requireAuth, (req, res) => res.render('temp'));
 app.use(authRoutes);
 // app.use()
