@@ -2,16 +2,13 @@ const mongoose = require('mongoose');
 const Company = require('./Company');
 
 const ExperienceSchema = new mongoose.Schema({
-    name : {
-        type : String, 
+    user : {
+        type : mongoose.Schema.Types.ObjectId, 
+        ref : 'user',
         required : true
-    },
-    image : {
-        type : String,
     },
     branch : {
         type : String,
-
     },
     year : {
         type : Number,
@@ -22,7 +19,7 @@ const ExperienceSchema = new mongoose.Schema({
         required : true
     },
     experience : {
-        type : Number
+        type : String
     }
 
 });

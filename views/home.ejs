@@ -19,10 +19,13 @@
 							<li><a href="/">Home</a></li>
 							<% if (user) { %>
 								<% if (user.firstName){ %>
-									<li><a href="" class="button">Hi <%= user.firstName%></a></li>
+									<li><a href="/userUpdation" class="button">Hi <%= user.firstName%></a></li>
 									<li><a href="/logout">Log out</a></li>
-								<% }%>
-							<% } else { %>
+									<% } else {%>
+										<li><a href="/userUpdation" class="button">Hi <%= user.email%></a></li>
+										<li><a href="/logout">Log out</a></li>
+
+							<% } } else { %>
 								<li><a href="#two" class="button  scrolly">Log In</a></li>
 							<!-- <a href="#three" class="goto-next scrolly" >Next</a> -->
 

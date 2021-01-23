@@ -176,7 +176,8 @@ module.exports.get_question_by_topicsName = async (req, res) => {
 }
 
 // ----------InterviwLogic-----------------
-const Company = require('../models/Company')
+const Company = require('../models/Company');
+const Experience = require('../models/experience');
 
 module.exports.interview_get = async (req, res) => {
 
@@ -189,4 +190,44 @@ module.exports.interview_get = async (req, res) => {
     }
 }).catch((err) => console.log("erro = ", err));
 
+}
+
+module.exports.company_get =  (req, res) => {
+  Company.find({}).then(result => res.render('interview/company', {companies : result}));
+}
+
+module.exports.user_updation_get = (req, res) => {
+  res.render('interview/userUpdation');
+}
+
+module.exports.experience_get = (req, res) => {
+  res.render('interview/experience');
+}
+module.exports.add_experience = (req, res) => {
+  const branches = ['CSE', 'MNC', 'ECE', 'EE', 'CST', 'EP', 'MT', 'CE', 'BT'];
+  Company.find({}).then(result => res.render('interview/add_experience', {companies : result, branches}));
+}
+module.exports.add_experience_post = async (req, res) => {
+
+  const {year, branch, company, experience} = req.body;
+  const user = res.locals.user;
+  var companyId = await Company.find({name : company});
+  companyId = companyId[0]._id;
+  var obj = {user, year, branch, company : companyId, experience};
+  try {
+    const exper = await Experience.create(obj);
+    console.log("exper : ", exper);
+    res.redirect('/');
+  }
+  catch(err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+
+}
+module.exports.show_experience = (req, res) => {
+  let name = req.params.name;
+  console.log("name : ", name);
+  Experience.find({}).then((result) => res.render('interview/show_experiences',{experiences : result}))
+  .catch((err) => console.log("error : ", err));
 }
