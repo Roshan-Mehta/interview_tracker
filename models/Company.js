@@ -11,6 +11,9 @@ const CompanySchema = new mongoose.Schema({
     img : {
         data : Buffer,
         contentType : String,
+    },
+    companyDetails : {
+        type : String
     }
 
 });

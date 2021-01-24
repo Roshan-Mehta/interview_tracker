@@ -20,6 +20,9 @@ const ExperienceSchema = new mongoose.Schema({
     },
     experience : {
         type : String
+    },
+    approved : {
+        type : Boolean
     }
 
 });

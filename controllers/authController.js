@@ -181,19 +181,20 @@ const Experience = require('../models/experience');
 
 module.exports.interview_get = async (req, res) => {
 
-  Company.find({}, (err, items) => {
+  await Company.find({}, (err, item) => {
     if (err){
         console.log(err);
     }
     else {
-        res.render('interview/home', {items : items});
+        res.render('interview/home', {items : item});
     }
 }).catch((err) => console.log("erro = ", err));
 
 }
 
-module.exports.company_get =  (req, res) => {
-  Company.find({}).then(result => res.render('interview/company', {companies : result}));
+module.exports.company_get = async (req, res) => {
+  const result = await Company.find({});
+  res.render('interview/company', {companiess : result});
 }
 
 module.exports.user_updation_get = (req, res) => {
@@ -211,9 +212,10 @@ module.exports.add_experience_post = async (req, res) => {
 
   const {year, branch, company, experience} = req.body;
   const user = res.locals.user;
+  const approved = isAdmin(req, res);
   var companyId = await Company.find({name : company});
   companyId = companyId[0]._id;
-  var obj = {user, year, branch, company : companyId, experience};
+  var obj = {user, year, branch, company : companyId, experience, approved};
   try {
     const exper = await Experience.create(obj);
     console.log("exper : ", exper);
@@ -225,9 +227,19 @@ module.exports.add_experience_post = async (req, res) => {
   }
 
 }
-module.exports.show_experience = (req, res) => {
+module.exports.show_experience = async (req, res) => {
   let name = req.params.name;
-  console.log("name : ", name);
-  Experience.find({}).then((result) => res.render('interview/show_experiences',{experiences : result}))
-  .catch((err) => console.log("error : ", err));
+  let allUser = new Array();
+  let company = await Company.find({name : name});
+  const allExperience = await Experience.find({company : company[0]._id, approved : true});
+  console.log("allExperience : ", allExperience);
+  for (let i = 0; i < allExperience.length ; i++) {
+    if (allExperience[i].approved) {
+      let user = await User.findById(allExperience[i].user);
+      console.log("user = ", user);
+      allUser.push(user);
+    }
+  }
+  
+  res.render('interview/show_experiences',{experiences : allExperience, company: company[0], allUser})
 }
