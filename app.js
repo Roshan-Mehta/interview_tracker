@@ -1,6 +1,9 @@
+//requires---------------------------------------
 const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const programmingRoutes = require('./routes/programming.routes');
+const interviewRoutes = require('./routes/interview.routes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const run = require('./admin/connection');
@@ -18,17 +21,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const express = require('express');
+// Admin Bro
 const {default : AdminBro} = require('admin-bro');
-// const mongoose = require('mongoose');
 const buildAdminRouter = require('./admin/admin.router');
 const options = require('./admin/admin.options');
-// const app = express();
 const port = 3000;
-// const url = 'mongodb://localhost:27017/MyProject';
+
+
 // view engine
 app.set('view engine', 'ejs');
 
+//Database---------------------------------------------------------------------------------
 const dbURI = 'mongodb+srv://roshan:roshan123@nodetuts.ouzew.mongodb.net/node-auth';
 const url = 'mongodb://localhost:27017/MyProject';
 let mongooseDb;
@@ -50,31 +53,17 @@ const databaseConnect = async () => {
 };
 databaseConnect();
 
-// routes
+// routes----------------------------------------------
 app.all('*', checkUser);
 app.get('/admin', reqAdminAuth);
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
-app.get('/topics', requireAuth, authController.get_topics);
-// app.get('/topics/:id', requireAuth, authController.get_question_by_topics);
-app.get('/topics/:id', requireAuth, authController.get_question_by_topicsName);
-// app.get('/questions/:id', requireAuth, authController.get_question_by_id);
-app.get('/questions/:name', requireAuth, authController.get_question_by_name);
-// app.get('/topics/:id', requireAuth, authController.get_question_by_id);
 app.get('/error', (req, res) => res.render('error'));
-app.get('/form', requireAuth, authController.form_get);
-app.post('/form', requireAuth, authController.form_post);
-app.get('/interviews', requireAuth, authController.interview_get);
-app.get('/temp',requireAuth, (req, res) => res.render('temp'));
 app.use(authRoutes);
+app.use(programmingRoutes);
+app.use(interviewRoutes);
 
 
 
-// app.use()
-app.get('/add_experience', requireAuth, authController.add_experience);
-app.get('/interviews/:name', requireAuth, authController.show_experience);
-app.post('/add_experience', requireAuth, authController.add_experience_post);
-
-// -----------Image-Processing-----------
+// -----------Image-Processing----------------------------
 const imageController = require('./controllers/imageController');
 app.use(imageController);
