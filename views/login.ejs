@@ -61,7 +61,9 @@
         passwordError.textContent = data.errors.password;
       }
       if (data.user) {
-        location.assign('/');
+        if (data.redirect_to)
+          location.assign(data.redirect_to);
+        else location.assign('/');
       }
 
     }

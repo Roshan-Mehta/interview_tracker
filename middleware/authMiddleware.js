@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const app = require('../app');
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
-
+  if (res.app.locals)
+    res.app.locals.redirect_to = req.originalUrl;
   // check json web token exists & is verified
   if (token) {
     jwt.verify(token, 'net ninja secret', (err, decodedToken) => {

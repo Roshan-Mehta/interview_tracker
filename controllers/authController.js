@@ -5,8 +5,11 @@ const Topics = require('../models/topics');
 const Topic = require("../models/topics");
 const { Query } = require("mongoose");
 const {isAdmin} = require('../middleware/authAdmin');
+const app = require('../app');
+
 
 // handle errors
+
 const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '' };
@@ -81,12 +84,13 @@ module.exports.form_post = async (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   const { email, password } = req.body;
-
+  var redirect_to = '/';
   try {
+    if (res.app.locals && res.app.locals.redirect_to) redirect_to = res.app.locals.redirect_to;
     const user = await User.create({ email, password });
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    res.status(201).json({ user: user._id, redirect_to });
   }
   catch(err) {
     const errors = handleErrors(err);
@@ -98,15 +102,17 @@ module.exports.signup_post = async (req, res) => {
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
 
+  var redirect_to = '/';
   try {
+    if (res.app.locals && res.app.locals.redirect_to) redirect_to = res.app.locals.redirect_to;
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, redirect_to});
   } 
   catch (err) {
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(400).json({ errors, redirect_to });
   }
 
 }
@@ -121,23 +127,7 @@ module.exports.get_topics = (req, res) => {
   .catch((err) => console.log(err));
 }
 
-module.exports.get_question_by_id = (req, res) => {
-  // const name = req.params.name;
-  const id = req.params.id;
-  // console.log("req ", req);
-  // console.log(name);
-  console.log("id = ", id);
-  // console.log(req.params);
-  // Quest.find({name : id}).then((result) => {
-  //   res.redirect(result.link);
-  // }) .catch((error) => console.log(eror));
 
-  Quest.findById(id).then((result) => {
-      // res.render('details',{ question : result });
-      res.redirect(result.link);
-  }) .catch((error) => console.log(error));
-
-}
 module.exports.get_question_by_name = (req, res) => {
   const name = req.params.name;
   let id;
@@ -145,19 +135,9 @@ module.exports.get_question_by_name = (req, res) => {
   Quest.find({name : name}).then((result) => {
     res.redirect(result[0].link);
   })
-  // Quest.find({topic : name}).then((result) => {
-  //   res.render('all_questions', {questions : result});
-  // }).catch((error) => console.log(error));
+ 
 }
-module.exports.get_question_by_topics = (req, res) => {
-  const id = req.params.id;
-  // console.log(id);
-  Quest.find({topic : id}).then((result) => res.render('all_questions', {questions : result}))
-  .catch((error) => console.log(error));
-  // Quest.find({name : 'Array Sum'}).then((result) => console.log("result : ", result));
-  // Quest.find({topic : id}).then((result) => console.log("Abe ab kyu nahi aa rha ", result, id));
 
-}
 module.exports.get_question_by_topicsName = async (req, res) => {
   const id = req.params.id;
   console.log("id = ", id);
@@ -175,7 +155,7 @@ module.exports.get_question_by_topicsName = async (req, res) => {
 
 }
 
-// ----------InterviwLogic-----------------
+// ----------InterviwLogic----------------------------------
 const Company = require('../models/Company');
 const Experience = require('../models/experience');
 

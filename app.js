@@ -53,13 +53,15 @@ const databaseConnect = async () => {
 };
 databaseConnect();
 
+console.log("app in main app : ", app);
+
 // routes----------------------------------------------
 app.all('*', checkUser);
 app.get('/admin', reqAdminAuth);
 app.get('/', (req, res) => res.render('home'));
 app.get('/error', (req, res) => res.render('error'));
 app.use(authRoutes);
-app.use(programmingRoutes);
+app.use('/programming', programmingRoutes);
 app.use(interviewRoutes);
 
 
@@ -67,3 +69,6 @@ app.use(interviewRoutes);
 // -----------Image-Processing----------------------------
 const imageController = require('./controllers/imageController');
 app.use(imageController);
+
+
+module.exports = app;
