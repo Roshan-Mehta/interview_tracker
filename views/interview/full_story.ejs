@@ -60,36 +60,37 @@
 							</article>
 
 						<!-- Posts -->
-							<section class="posts">
+							<!-- <section class="posts"> -->
 								<% for (let i = 0; i < experiences.length; i ++) { %>
 									<article>
 										<header>
 											<!-- <span class="date">April 24, 2017</span> -->
 											<% if (allUser[i] && allUser[i].firstName && allUser[i].lastName) { %>
-											<h2><a href="#"><%=allUser[i].firstName%><br />
+											<h2 style="margin-left: 30%;"><a href="#"><%=allUser[i].firstName%><br />
 												<%=allUser[i].lastName%></a></h2>
 												<% } else { %>
 													<% if (allUser[i] && allUser[i].email) { %>
-													<h2><a href="#"><%=allUser[i].email%><br />
+													<h2><a href="#" style="margin-left : 30%;"><%=allUser[i].email%><br />
 													<% } %>
 												<% } %>
 										</header>
 										<% if (allUser[i] && allUser[i].img && allUser[i].img.data) { %>
-												<a href="#" class="image fit"><img src="data:image/<%=allUser[i].img.contentType%>;base64,
-													<%=allUser[i].img.data.toString('base64')%>" class = "myImageStyle"></a>
+												<a href="#" class="image"><img src="data:image/<%=allUser[i].img.contentType%>;base64,
+													<%=allUser[i].img.data.toString('base64')%>" style="max-width: 30%; margin-left: 35%;"></a>
 										<% } else { %>
-											<a href="#" class="image fit"><img src="/defaultUser.jpg" alt=""></a>
+											<a href="#" class="image"><img src="/defaultUser.jpg" style="max-width: 30%;" alt=""></a>
 										<% } %>
-														<p><%= experiences[i].experience.substring(0, 150) %>.......</p>
+                                                <div style="margin-left : 15%; margin-right: 15%;">
+													<p><%= experiences[i].experience %></p>
 													<ul class="actions special">
-														<li><a href="/<%=company.name%>/<%= experiences[i]._id%>" class="button">Full Story</a></li>
 													</ul>
+                                                </div>
 									</article>
 								<% } %>
 								
 						
 								
-							</section>
+							<!-- </section> -->
 
 						<!-- Footer -->
 							<footer>

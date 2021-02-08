@@ -212,14 +212,33 @@ module.exports.show_experience = async (req, res) => {
   let allUser = new Array();
   let company = await Company.find({name : name});
   const allExperience = await Experience.find({company : company[0]._id, approved : true});
-  console.log("allExperience : ", allExperience);
+  // console.log("allExperience : ", allExperience);
   for (let i = 0; i < allExperience.length ; i++) {
     if (allExperience[i].approved) {
       let user = await User.findById(allExperience[i].user);
-      console.log("user = ", user);
+      // console.log("user = ", user);
       allUser.push(user);
     }
   }
-  
+  console.log("org url : ", req.originalUrl);
   res.render('interview/show_experiences',{experiences : allExperience, company: company[0], allUser})
+}
+
+module.exports.get_full_story = async (req, res) => {
+  let name = req.params.name;
+  const id = req.params.id;
+  let allUser = new Array();
+  let company = await Company.find({name : name});
+  const allExperience = await Experience.find({_id : id});
+  for (let i = 0; i < allExperience.length ; i++) {
+    if (allExperience[i].approved) {
+      let user = await User.findById(allExperience[i].user);
+      // console.log("user = ", user);
+      allUser.push(user);
+    }
+  }
+  // console.log("org url : ", req.originalUrl);
+  res.render('interview/full_story',{experiences : allExperience, company: company[0], allUser})
+ 
+  
 }
