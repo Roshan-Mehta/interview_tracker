@@ -7,6 +7,8 @@ const run = require('./admin/connection');
 const authController = require('./controllers/authController');
 const Quest = require('./models/question');
 const {reqAdminAuth} = require('./middleware/authAdmin');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 
@@ -14,6 +16,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // const express = require('express');
 const {default : AdminBro} = require('admin-bro');
@@ -61,5 +64,17 @@ app.get('/questions/:name', requireAuth, authController.get_question_by_name);
 app.get('/error', (req, res) => res.render('error'));
 app.get('/form', requireAuth, authController.form_get);
 app.post('/form', requireAuth, authController.form_post);
+app.get('/interviews', requireAuth, authController.interview_get);
+app.get('/temp',requireAuth, (req, res) => res.render('temp'));
 app.use(authRoutes);
+
+
+
 // app.use()
+app.get('/add_experience', requireAuth, authController.add_experience);
+app.get('/interviews/:name', requireAuth, authController.show_experience);
+app.post('/add_experience', requireAuth, authController.add_experience_post);
+app.get('/:name/:id', requireAuth, authController.get_full_story);
+// -----------Image-Processing-----------
+const imageController = require('./controllers/imageController');
+app.use(imageController);

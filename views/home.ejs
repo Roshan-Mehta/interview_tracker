@@ -14,15 +14,18 @@
 			<!-- Header -->
 				<header id="header">
 					<h1 id="logo"><a href="/">Interview-prep Tracker</a></h1>
-					<nav id="nav">
+					<nav >
 						<ul>
 							<li><a href="/">Home</a></li>
 							<% if (user) { %>
 								<% if (user.firstName){ %>
-									<li><a href="" class="button">Hi <%= user.firstName%></a></li>
+									<li><a href="/userUpdation" class="button">Hi <%= user.firstName%></a></li>
 									<li><a href="/logout">Log out</a></li>
-								<% }%>
-							<% } else { %>
+									<% } else {%>
+										<li><a href="/userUpdation" class="button">Hi <%= user.email%></a></li>
+										<li><a href="/logout">Log out</a></li>
+
+							<% } } else { %>
 								<li><a href="#two" class="button  scrolly">Log In</a></li>
 							<!-- <a href="#three" class="goto-next scrolly" >Next</a> -->
 
@@ -38,7 +41,7 @@
 					<div class="content">
 						<header>
 							<h2>Welcome</h2>
-							<p>Want to prepare for Interview ? Yaaa.. You come at right place!</p>
+							<p>Want to prepare for Interview ? Yaaa.. You came at right place!</p>
 						</header>
 						<span class="image"><img src="images/Logo.png" alt="" /></span>
 					</div>
@@ -63,9 +66,9 @@
 									</h2>
 								</div>
 								<div class="col-4 col-12-medium">
-									<a><span class="icon solid alt major fa-user-friends %>"></span></a>
+									<a href="\interviews"><span class="icon solid alt major fa-user-friends %>"></span></a>
 
-									<h2><a href="" style="color: white;">Interview Experience</a>
+									<h2><a href="\interviews" style="color: white;">Interview Experience</a>
 									</h2>
 								</div>
 							</div>
