@@ -33,8 +33,8 @@ No, Wants to read other experience, Choose interview section.
 
 ## This is just one section. There is much more waiting. Visit our website now!
 
-### Contributors: 
-### Roshan Kumar
-### Mansi Sharma
-### Deepika Agrawal
-### Narmin Kauser
+## Contributors: 
+### 1.Roshan Kumar
+### 2.Mansi Sharma
+### 3.Deepika Agrawal
+### 4.Narmin Kauser
